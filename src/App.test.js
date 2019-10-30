@@ -1,9 +1,11 @@
 import React from "react";
-// no default export, so we're importing everyting from this library
+// no default export, so we're importing everything from this library
 import * as rtl from "@testing-library/react";
 // not importing to a variable, since this just overrides jest global variables
 import "@testing-library/jest-dom/extend-expect";
 import App from "./App";
+
+import renderer from 'react-test-renderer';
 
 // this just allows react-testing-library to do some
 // routine cleanup after each test runs (to reset the DOM and such)
@@ -28,3 +30,9 @@ test("Render count input", () => {
   const element = wrapper.getByPlaceholderText(/count/i);
   expect(element).toHaveValue(1);
 });
+
+test("<App /> snapshot", () => {
+  const wrapper = rtl.render(<App />)
+
+  expect(wrapper.asFragment()).toMatchSnapshot()
+})
