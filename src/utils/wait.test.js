@@ -1,6 +1,7 @@
 import wait from "./wait";
 
-// PREWRITTEN MOKE FROM JEST
+// PREWRITTEN MOCK FROM JEST
+// a useful pre-written mock from jest to mock "setTimeout"
 jest.useFakeTimers();
 
 
@@ -34,14 +35,20 @@ jest.useFakeTimers();
 // INDUSTRY STANDARD
 // async returns a promise
 test("wait for promise to resolve", async () => {
-    const spy = jest.fn()
-    const waitFn = wait(3, spy)
+	const spy = jest.fn()
+	// define the function, but don't wait for the promise to resolve yet
+	const waitFn = wait(3, spy)
 
-    // FAST FORWARD IN TIME
-    jest.runAllTimers()
-    const result = await waitFn
+	// fast forward in time so we don't actually have to wait 3 seconds
+	jest.runAllTimers()
+	
+	// now that we went into the future, we can wait for the promise to resolve
+	const result = await waitFn
+	
+	expect(result).toBe("hoo ray!")
 
-    expect(result).toBe("hoo ray!")
-    expect(spy).toHaveBeenCalledWith("hoo ray!")
-    expect(spy).toHaveBeenCalledTimes(1)
-});
+	// we can tell what our spy function has been up to,
+	// to make sure it was called by "wait", etc.
+	expect(spy).toHaveBeenCalledWith("hoo ray!")
+	expect(spy).toHaveBeenCalledTimes(1)
+})
