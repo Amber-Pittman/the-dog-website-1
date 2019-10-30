@@ -1,5 +1,10 @@
 import wait from "./wait";
-import { exportAllDeclaration } from "@babel/types";
+
+// PREWRITTEN MOKE FROM JEST
+jest.useFakeTimers();
+
+
+//import { exportAllDeclaration } from "@babel/types";
 
 
 // //  METHOD 1 FOR ASYNC TESTS
@@ -29,6 +34,14 @@ import { exportAllDeclaration } from "@babel/types";
 // INDUSTRY STANDARD
 // async returns a promise
 test("wait for promise to resolve", async () => {
-    const result = await wait(3)
+    const spy = jest.fn()
+    const waitFn = wait(3, spy)
+
+    // FAST FORWARD IN TIME
+    jest.runAllTimers()
+    const result = await waitFn
+
     expect(result).toBe("hoo ray!")
-    })
+    expect(spy).toHaveBeenCalledWith("hoo ray!")
+    expect(spy).toHaveBeenCalledTimes(1)
+});
