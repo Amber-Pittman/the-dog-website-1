@@ -36,7 +36,9 @@ function App(props) {
         ))}
       </div>
 
-      <button onClick={() => setImages([])}>Clear Images</button>
+      <button onClick={() => setImages([])}>
+        Clear Images
+      </button>
     </>
   );
 }
