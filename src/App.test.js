@@ -30,6 +30,19 @@ test("made API call", async () => {
   expect(axios.get).toHaveBeenCalled()
 })
 
+test("Cleared images", async () => {
+  const wrapper = rtl.render(<App />);
+  await wrapper.findAllByAltText(/dog/i);
+
+  const clear = wrapper.getByText(/clear/i)
+  // simulate a user interaction of clicking on button
+  rtl.act(() => {
+    rtl.fireEvent.click(clear)
+  })
+
+  expect(wrapper.queryByAltText(/dog/i)).toBeNull();
+})
+
 
 test("Render the heading", async () => {
   // render our React app into an in-memory DOM so we can test against it
